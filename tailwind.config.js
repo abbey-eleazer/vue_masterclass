@@ -9,6 +9,7 @@ export default {
       colors: {
         'brandGray-1' : '#dadce0',
         'brandBlue-1' : '#1967d2',
+        'brandBlue-2' : '#4285f4',
         'brandGreen-1' : '#137333'
       },
       boxShadow: {
