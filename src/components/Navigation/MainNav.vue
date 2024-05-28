@@ -1,5 +1,5 @@
 <template>
-  <header class="text-sm w-full">
+  <header :class="['text-sm',' w-full', headerHeightClass]">
     <div class="fixed top-0 left-0 w-full bg-white h-16">
       <div class="mx-auto h-full flex flex-nowrap border-b border-solid border-brandGray-1 px-8">
         <a :href="url" class="flex items-center h-full text-xl">{{ company }} </a>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import ActionButton from './ActionButton.vue'
+import ActionButton from '../shared/ActionButton.vue'
 import ProfilePic from './ProfilePic.vue'
 import SubNav from './SubNav.vue'
 
@@ -44,6 +44,16 @@ export default {
       menuItems: ['Teams', 'Locations', 'Life at Bobo Corp', 'How we hire', 'Students', 'Jobs'],
       isLoggedIn: false
     }
+  },
+
+  computed: {
+   headerHeightClass() {
+    return {
+
+      'h-16': !this.isLoggedIn,
+      'h-32': this.isLoggedIn,
+    }
+   }
   },
 
   methods: {
