@@ -46,14 +46,14 @@ describe('HeroText', () => {
 
     it('removes interval when component disapears', () => {
       vi.useFakeTimers()
-      const clearInterval = vi.fn()
-      vi.stubGlobal('clearInterval', clearInterval)
+      const mock = vi.fn()
+      vi.stubGlobal('clearInterval', mock)
 
       const {unmount} = render(HeroText)
       unmount()
 
-      expect(clearInterval).toHaveBeenCalled()
-      vi .useRealTimers()
+      expect(mock).toHaveBeenCalled()
+      vi.useRealTimers()
 
     })
 })

@@ -1,5 +1,5 @@
 <template>
-  <input  :value="value" type="text" placeholder="Software Engineer" class="w-full text-lg font-normal focus:outline-none" @input="handleInput" />
+  <input  type="text" placeholder="Software Engineer"  :value="modelValue" class="w-full text-lg font-normal focus:outline-none" @input="handleInput" />
 
 </template>
 
@@ -9,15 +9,20 @@ export default {
 
   name: 'TextInput',
 
-  data() {
-    return {
-      value: '',
-    }
-  },
+  
+      props: {
+      modelValue: {
+        type: String,
+        required: true
+      }
 
+      },
+
+      emits: ['update:modelValue'],
+    
   methods: {
     handleInput($event) {
-      this.value = $event.target.value
+      this.$emit('update:modelValue', $event.target.value)
     }
   }
 }
