@@ -24,10 +24,6 @@ export default {
   computed: {
     actionClasses() {
       return {
-        // build: this.action === 'Build',
-        // code: this.action === 'Code',
-        // design: this.action === 'Design',
-        // create: this.action === 'Create',
 
         [this.action.toLowerCase()]: true // shorthand
       }

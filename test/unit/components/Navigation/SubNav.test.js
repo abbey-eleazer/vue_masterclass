@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/vue'
 import SubNav from '@/components/Navigation/SubNav.vue'
-// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 describe('SubNav', () => {
 

@@ -1,7 +1,7 @@
 import { screen, render } from "@testing-library/vue"
-import JobListing from "@/components/JobResult/JobListing.vue"
-
 import { RouterLinkStub } from "@vue/test-utils"
+
+import JobListing from "@/components/JobResult/JobListing.vue"
 
 describe('JobListing', () => {
 

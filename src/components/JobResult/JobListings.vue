@@ -11,7 +11,7 @@
 
       <div class="flex items-center justify-center">
         <router-link
-          v-if="previousPage"
+          v-if="previousPage" role="link"
           :to="{ name: 'JobResults', query: { page: previousPage } }"
           class="mx-3 font-semibold text-sm text-brandBlue-1"
         >
@@ -19,8 +19,9 @@
         </router-link>
 
         <router-link
-          v-if="nextPage" role="link"
-           :to="{ name: 'JobResults', query: { page: nextPage } }"
+          v-if="nextPage"
+          role="link"
+          :to="{ name: 'JobResults', query: { page: nextPage } }"
           class="mx-3 font-semibold text-sm text-brandBlue-1"
         >
           Next
@@ -31,8 +32,10 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions, mapState } from 'pinia'
+
 import JobListing from './JobListing.vue'
+import { useJobsStore, FETCH_JOBS } from '@/Stores/jobs'
 
 export default {
   name: 'JobListings',
@@ -40,16 +43,7 @@ export default {
   components: {
     JobListing
   },
-  data() {
-    return {
-      jobs: []
-    }
-  },
-
-  async mounted() {
-    const response = await axios.get('http://localhost:3000/jobs')
-    this.jobs = response.data
-  },
+ 
 
   computed: {
     currentPage() {
@@ -63,7 +57,10 @@ export default {
       return previousPage >= firstPage ? previousPage : undefined
     },
 
-    nextPage() {
+    ...mapState(useJobsStore, {
+      jobs: 'jobs',
+
+      nextPage() {
       const nextPage = this.currentPage + 1
       const maxPage = Math.ceil(this.jobs.length / 10)
 
@@ -71,13 +68,25 @@ export default {
     },
 
     displayedJobs() {
-      const pageString = this.currentPage
-      const pageNumber = Number.parseInt(pageString)
+      const pageNumber = this.currentPage
+      // const  = Number.parseInt(pageString)
       const firstJobIndex = (pageNumber - 1) * 10
-      const secondJobIndex = pageNumber * 10
+      const lastJobIndex = pageNumber * 10
 
-      return this.jobs.slice(firstJobIndex, secondJobIndex)
+      return this.jobs.slice(firstJobIndex, lastJobIndex)
     }
+    })
+
+  
+  },
+
+  
+  async mounted() {
+   this.FETCH_JOBS()
+  },
+
+  methods: {
+    ...mapActions(useJobsStore, [FETCH_JOBS])
   }
 }
 </script>
