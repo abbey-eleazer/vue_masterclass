@@ -1,5 +1,6 @@
 import { axios } from 'axios'
 
+
 import getJobs from '@/Api/getJobs'
 
 vi.mock('axios')
@@ -13,7 +14,7 @@ describe('getJobs', () => {
           id: 1,
           title: 'Java Enginner'
         }
-      ]
+      ] 
     })
   })
   it('fetches jobs that users can apply to', async () => {

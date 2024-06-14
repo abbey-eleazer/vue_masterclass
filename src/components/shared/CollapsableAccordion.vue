@@ -9,7 +9,9 @@
       <font-awesome-icon :icon="caretIcon" />
     </div>
     <div v-if="isOpen" class="mt-5 w-full">
-      <slot></slot>
+      <slot>
+       <p> opps forgot about somthing</p>
+      </slot>
     </div>
   </div>
 </template>
