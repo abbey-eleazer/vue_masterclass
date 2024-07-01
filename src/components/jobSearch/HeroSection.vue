@@ -1,5 +1,5 @@
 <template>
-  <main lass="flex flex-col h-screen">
+  <main class="flex flex-col h-screen">
     <section class="pt-10 pb-20"> 
       <div class="grid grid-cols-12 ">
         <div class="col-start-1 col-span-1"></div>

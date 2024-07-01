@@ -1,4 +1,4 @@
-<template>
+ <template>
   <main class="flex-auto bg-brandGray-2 p-8">
     <ol>
       <job-listing v-for="job in displayedJobs" :key="job.id" :job="job" />
@@ -32,58 +32,36 @@
   </main>
 </template>
 
-<script>
-import { mapActions, mapState } from 'pinia'
+<script setup>
 
 import JobListing from './JobListing.vue'
-import { useJobsStore, FETCH_JOBS, FILTERED_JOBS } from '@/Stores/jobs'
+import { useJobsStore } from '@/Stores/jobs'
 
-export default {
-  name: 'JobListings',
+import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
-  components: {
-    JobListing
-  },
+import usePreviousAndNextPages from '@/composables/usePreviouAndNextPages'
 
-  computed: {
-    currentPage() {
-      return Number.parseInt(this.$route.query.page || '1')
-    },
+const jobsStore = useJobsStore()
+onMounted(jobsStore.FETCH_JOBS)
 
-    previousPage() {
-      const previousPage = this.currentPage - 1
-      const firstPage = 1
+const FILTERED_JOBS = computed(() => jobsStore.FILTERED_JOBS)
 
-      return previousPage >= firstPage ? previousPage : undefined
-    },
+const route = useRoute()
+const currentPage = computed(() => Number.parseInt(route.query.page || '1'))
+const maxPage = computed(() => Math.ceil(FILTERED_JOBS.value .length / 10))
 
-    ...mapState(useJobsStore, {
-      FILTERED_JOBS,
+const { previousPage, nextPage } = usePreviousAndNextPages( currentPage, maxPage )
 
-      nextPage() {
-        const nextPage = this.currentPage + 1
-        const maxPage = Math.ceil(this.FILTERED_JOBS.length / 10)
 
-        return nextPage <= maxPage ? nextPage : undefined
-      },
 
-      displayedJobs() {
-        const pageNumber = this.currentPage
-        // const  = Number.parseInt(pageString)
-        const firstJobIndex = (pageNumber - 1) * 10
-        const lastJobIndex = pageNumber * 10
+const displayedJobs = computed(() => {
+  const pageNumber = currentPage.value
+  const firstJobIndex = (pageNumber - 1) * 10
+  const lastJobIndex = pageNumber * 10
+  return FILTERED_JOBS.value.slice(firstJobIndex, lastJobIndex)
+})
 
-        return this.FILTERED_JOBS.slice(firstJobIndex, lastJobIndex)
-      }
-    })
-  },
 
-  async mounted() {
-    this.FETCH_JOBS()
-  },
 
-  methods: {
-    ...mapActions(useJobsStore, [FETCH_JOBS])
-  }
-}
 </script>

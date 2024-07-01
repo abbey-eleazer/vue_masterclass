@@ -2,11 +2,11 @@
   <button @click="handleClick" :class="buttonClass">{{ text }}</button>
 </template>
 
-<script>
-export default {
-  name: 'ActionButton',
+<script setup>
+import { computed, toRefs } from 'vue'
 
-  props: {
+  const props = defineProps({
+
     text: {
       type: String,
       required: true,
@@ -20,17 +20,18 @@ export default {
         return ['primary', 'secondary'].includes(value)
       }
     }
-  },
+  
+  })
 
+    const { type  } = toRefs(props)
 
-  computed: {
-    buttonClass() {
-      // return { primary: this.isPrimary, secondary: !this.isPrimary }
-      return {  [this.type]: true }
-    }
-  }
+    const buttonClass = computed(() => {
+      return {
+        [type.value]: true
+      }
+    })
+    
 
-}
 </script>
 
 <style scoped>

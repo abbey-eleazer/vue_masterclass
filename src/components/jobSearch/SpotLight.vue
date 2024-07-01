@@ -6,22 +6,20 @@
   </ul>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue';
 import axios from 'axios'
 
-export default {
-  name: 'SpotLight',
+const spotlights = ref({})
 
-  data() {
-    return {
-      spotlights: [],
-    }
-  },
-  async mounted() {
+const getSpotlights = async () => {
    const baseUrl = import.meta.env.VITE_APP_API_URL
    const url = `${baseUrl}/spotlights`
    const response = await axios.get(url)
-   this.spotlights = response.data
-  }
+   spotlights.value = response.data
 }
+
+
+onMounted(getSpotlights)
+
 </script>
